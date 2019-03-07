@@ -1,5 +1,6 @@
 package br.com.juliansantos.androidadvplproject;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
-import br.com.juliansantos.androidadvplproject.R;
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Global variables.
     private LinearLayout layoutMain;
+    private ProgressBar progressBarLogin;
     private LinearLayout layoutTop;
     private TextView txvTitle;
     private LinearLayout layoutCenter;
@@ -66,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
         // load views to class.
         initViews();
 
-        // Initialize listener for buttons.
-        initButtonListener();
-
     }
 
     /**
@@ -96,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
         layoutMain = findViewById(R.id.layout_main);
 
+        progressBarLogin = findViewById(R.id.pgrb_login);
+
         layoutTop = findViewById(R.id.layout2_top);
         txvTitle = findViewById(R.id.txv_login);
 
@@ -114,58 +115,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Method for initialize listener in buttons.
+     * Method for initialize listener in button entrar.
      *
      * @since 04/03/2019
      */
-    private void initButtonListener() {
+    public void btnEntrarOnClick(View view) {
 
-        btnSingIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        // Local variables.
+        String userCode = edtUser.getText().toString();
+        String pass = edtPass.getText().toString();
 
-                // Local variables.
-                String userCode = "mas800109";
-                String pass = "Cecor@2009";
+        WSAuthenticationProtheus wsAuthenticationProtheus;
+        WSUserProtheus wsUserProtheus;
 
-                // Initializes user and password
-                userCode = edtUser.getText().toString();
-                pass = edtPass.getText().toString();
-                pass = Base64.encodeToString(pass.getBytes(), Base64.DEFAULT);
+        // Initializes user and password
+        userCode = edtUser.getText().toString();
+        pass = edtPass.getText().toString();
+        pass = Base64.encodeToString(pass.getBytes(), Base64.DEFAULT);
 
-                try {
+        try {
 
-                    // Performs authentication for user and password.
-                    isAuthorized = (boolean) new WSAuthenticationProtheus(userCode, pass).execute().get();
+            Toast toast0 = Toast.makeText(MainActivity.this, "INICIO", Toast.LENGTH_SHORT);
+            toast0.show();
 
-                    // Is successfully logged, fetches user information.
-                    if (isAuthorized) {
-                        user = (UserProtheus) new WSUserProtheus("cod", userCode).execute().get();
+            // Performs authentication for user and password.
+            wsAuthenticationProtheus = new WSAuthenticationProtheus(userCode, pass);
+            wsAuthenticationProtheus.execute();
 
-                        // If not load user information.
-                        if (user.getId().isEmpty()) {
-                            return;
-                        }
+            Toast toast1 = Toast.makeText(this, "MEIO", Toast.LENGTH_SHORT);
+            toast1.show();
 
-                        // Get available company`s for protheus user.
-                        companysProtheus = new ArrayList<CompanyProtheus>(Arrays.asList((CompanyProtheus[]) new WSUserProtheus("emp", userCode).execute().get()));
+            isAuthorized = wsAuthenticationProtheus.get();
 
-                        //Next
-                        Toast toast = Toast.makeText(getApplicationContext(), "Olâ " + user.getName(), Toast.LENGTH_LONG);
-                        toast.show();
+            Toast toast2 = Toast.makeText(getApplicationContext(), "FIM", Toast.LENGTH_SHORT);
+            toast2.show();
 
-                    } else {
-                        return;
-                    }
 
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            // Is successfully logged, fetches user information.
+            if (isAuthorized) {
+                user = (UserProtheus) new WSUserProtheus("cod", userCode).execute().get();
+
+                // If not load user information.
+                if (user.getId().isEmpty()) {
+                    return;
                 }
 
+                // Get available company`s for protheus user.
+                companysProtheus = new ArrayList<CompanyProtheus>(Arrays.asList((CompanyProtheus[]) new WSUserProtheus("emp", userCode).execute().get()));
+
+                //Next
+                Toast toast = Toast.makeText(getApplicationContext(), "Olâ " + user.getName(), Toast.LENGTH_LONG);
+                toast.show();
+
+            } else {
+                return;
             }
-        });
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 }
