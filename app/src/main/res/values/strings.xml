@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">AndroidProtheusApp</string>
+    <string name="app_name">TOTVS Protheus Login</string>
+    <string name="user">Usuário</string>
+    <string name="pass">Senha</string>
+    <string name="save_pass">Salvar senha</string>
+    <string name="singin">Entrar</string>
+    <string name="user">Usuário</string>
 </resources>
