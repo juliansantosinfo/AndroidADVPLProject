@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Class that defines an protheus user.
@@ -64,12 +65,16 @@ public class UserProtheus implements Serializable {
     @Expose
     private Boolean passInNextLogon;
 
+    private String password;
+    private ArrayList<CompanyProtheus> listCompanys;
+
     public UserProtheus() {
     }
 
-    public UserProtheus(String id, String code, String name, String email, String department, String office, String branch, Integer levelFields, Integer simultaneousAccesses, Boolean isBlocked, String dateIncluded, String lastChange, String expirationDate, Integer daysToExpire, Boolean isListener, Boolean changePassword, Boolean passInNextLogon) {
+    public UserProtheus(String id, String code, String password, String name, String email, String department, String office, String branch, Integer levelFields, Integer simultaneousAccesses, Boolean isBlocked, String dateIncluded, String lastChange, String expirationDate, Integer daysToExpire, Boolean isListener, Boolean changePassword, Boolean passInNextLogon, ArrayList<CompanyProtheus> listCompanys) {
         this.id = id;
         this.code = code;
+        this.password = password;
         this.name = name;
         this.email = email;
         this.department = department;
@@ -85,6 +90,7 @@ public class UserProtheus implements Serializable {
         this.isListener = isListener;
         this.changePassword = changePassword;
         this.passInNextLogon = passInNextLogon;
+        this.listCompanys = listCompanys;
     }
 
     public String getId() {
@@ -101,6 +107,14 @@ public class UserProtheus implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -221,5 +235,13 @@ public class UserProtheus implements Serializable {
 
     public void setPassInNextLogon(Boolean passInNextLogon) {
         this.passInNextLogon = passInNextLogon;
+    }
+
+    public ArrayList<CompanyProtheus> getListCompanys() {
+        return listCompanys;
+    }
+
+    public void setListCompanys(ArrayList<CompanyProtheus> listCompanys) {
+        this.listCompanys = listCompanys;
     }
 }

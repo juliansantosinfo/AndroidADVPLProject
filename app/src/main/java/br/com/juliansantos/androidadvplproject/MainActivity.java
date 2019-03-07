@@ -1,9 +1,7 @@
 package br.com.juliansantos.androidadvplproject;
 
-import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,15 +9,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
-import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
-import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
+import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
 import br.com.juliansantos.androidadvplproject.webservices.WSUserProtheus;
 
 /**
@@ -32,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Global variables.
     private LinearLayout layoutMain;
-    private ProgressBar progressBarLogin;
+    public  ProgressBar progressBarLogin;
     private LinearLayout layoutTop;
     private TextView txvTitle;
     private LinearLayout layoutCenter;
@@ -45,12 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView txvFooter;
     private Button btnSingIn;
 
-    private boolean isAuthorized;
-    private UserProtheus user;
-    private ArrayList<CompanyProtheus> companysProtheus;
+    private UserProtheus userProtheus;
 
     /**
-     *
      * @since 04/03/2019
      * @param savedInstanceState
      */
@@ -93,29 +82,31 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initViews() {
 
+        // Layouts.
         layoutMain = findViewById(R.id.layout_main);
-
-        progressBarLogin = findViewById(R.id.pgrb_login);
-
         layoutTop = findViewById(R.id.layout2_top);
+        layoutCenter = findViewById(R.id.layout2_center);
+        layoutBottom = findViewById(R.id.layout2_bottom);
+
+        // Views in 'layout2_top'
         txvTitle = findViewById(R.id.txv_login);
 
-        layoutCenter = findViewById(R.id.layout2_center);
+        // Views in 'layout2_center'
+        progressBarLogin = findViewById(R.id.pgrb_login);
         txvUser = findViewById(R.id.txv_user);
-        edtUser = findViewById(R.id.edt_user);
         txvPass = findViewById(R.id.txv_pass);
+        edtUser = findViewById(R.id.edt_user);
         edtPass = findViewById(R.id.edt_pass);
         chkbRemember = findViewById(R.id.chkb_remember_login);
-
-        layoutBottom = findViewById(R.id.layout2_bottom);
         txvFooter = findViewById(R.id.txv_by);
 
+        //Views in 'layout2_bottom'.
         btnSingIn = findViewById(R.id.btn_singin);
 
     }
 
     /**
-     * Method for initialize listener in button entrar.
+     * Method for executar listener onClick in button btnSingIn.
      *
      * @since 04/03/2019
      */
@@ -123,59 +114,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Local variables.
         String userCode = edtUser.getText().toString();
-        String pass = edtPass.getText().toString();
+        String userPass = edtPass.getText().toString();
 
-        WSAuthenticationProtheus wsAuthenticationProtheus;
-        WSUserProtheus wsUserProtheus;
+        // Initialize userProtheus.
+        userProtheus = new UserProtheus();
+        userProtheus.setCode(userCode);
+        userProtheus.setPassword(userPass);
 
-        // Initializes user and password
-        userCode = edtUser.getText().toString();
-        pass = edtPass.getText().toString();
-        pass = Base64.encodeToString(pass.getBytes(), Base64.DEFAULT);
-
-        try {
-
-            Toast toast0 = Toast.makeText(MainActivity.this, "INICIO", Toast.LENGTH_SHORT);
-            toast0.show();
-
-            // Performs authentication for user and password.
-            wsAuthenticationProtheus = new WSAuthenticationProtheus(userCode, pass);
-            wsAuthenticationProtheus.execute();
-
-            Toast toast1 = Toast.makeText(this, "MEIO", Toast.LENGTH_SHORT);
-            toast1.show();
-
-            isAuthorized = wsAuthenticationProtheus.get();
-
-            Toast toast2 = Toast.makeText(getApplicationContext(), "FIM", Toast.LENGTH_SHORT);
-            toast2.show();
-
-
-            // Is successfully logged, fetches user information.
-            if (isAuthorized) {
-                user = (UserProtheus) new WSUserProtheus("cod", userCode).execute().get();
-
-                // If not load user information.
-                if (user.getId().isEmpty()) {
-                    return;
-                }
-
-                // Get available company`s for protheus user.
-                companysProtheus = new ArrayList<CompanyProtheus>(Arrays.asList((CompanyProtheus[]) new WSUserProtheus("emp", userCode).execute().get()));
-
-                //Next
-                Toast toast = Toast.makeText(getApplicationContext(), "Olâ " + user.getName(), Toast.LENGTH_LONG);
-                toast.show();
-
-            } else {
-                return;
-            }
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // Get UserProtheus and Companys.
+        new TaskLogin(this, userProtheus).execute();
 
     }
 }
