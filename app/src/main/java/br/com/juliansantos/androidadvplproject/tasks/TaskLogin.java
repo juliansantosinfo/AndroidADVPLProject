@@ -2,8 +2,10 @@ package br.com.juliansantos.androidadvplproject.tasks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
+import br.com.juliansantos.androidadvplproject.activits.CompanysActivity;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
 import br.com.juliansantos.androidadvplproject.webservices.WSUserProtheus;
@@ -73,9 +75,21 @@ public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
             publishProgress("Buscando Empresas");
             userProtheus.setListCompanys(new WSUserProtheus(userProtheus).requestCompanysProtheus());
 
+            // Open activity company.
+            activityCompanyStart();
+
         } else {
             return new UserProtheus();
         }
         return userProtheus;
     }
+
+    /**
+     * Method for start activity companys.
+     */
+    private void activityCompanyStart() {
+        Intent intent = new Intent(context, CompanysActivity.class);
+        context.startActivity(intent);
+    }
+
 }

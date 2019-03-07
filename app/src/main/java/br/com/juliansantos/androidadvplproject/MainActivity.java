@@ -1,5 +1,6 @@
 package br.com.juliansantos.androidadvplproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
 import br.com.juliansantos.androidadvplproject.webservices.WSUserProtheus;
@@ -37,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView txvFooter;
     private Button btnSingIn;
 
+    private Intent intent;
     private UserProtheus userProtheus;
+    private CompanyProtheus companyProtheus;
+
 
     /**
      * @since 04/03/2019
@@ -124,5 +129,15 @@ public class MainActivity extends AppCompatActivity {
         // Get UserProtheus and Companys.
         new TaskLogin(this, userProtheus).execute();
 
+    }
+
+    @Override
+    public Intent getIntent() {
+        return intent;
+    }
+
+    @Override
+    public void setIntent(Intent intent) {
+        this.intent = intent;
     }
 }
