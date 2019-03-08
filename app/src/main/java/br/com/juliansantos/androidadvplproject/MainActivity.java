@@ -1,6 +1,9 @@
 package br.com.juliansantos.androidadvplproject;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +34,8 @@ import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
 public class MainActivity extends AppCompatActivity {
 
     // Global variables.
+    private static boolean isFullscrrenLayout;
+
     private LinearLayout layoutMain;
     public  ProgressBar progressBarLogin;
     private LinearLayout layoutTop;
@@ -44,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutBottom;
     private TextView txvFooter;
     private Button btnSingIn;
+    private FloatingActionButton fabSettings;
 
     private UserProtheus userProtheus;
     private CompanyProtheus companyProtheus;
-
 
     /**
      * @since 04/03/2019
@@ -58,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize variable for fullscreenLayout.
+        isFullscrrenLayout = true;
+        hideNavegationBar();
+
         // load views to class.
         initViews();
 
@@ -66,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         // If there is login information, it loads the same.
         loadLoginInfo();
-
     }
+
+
 
     /**
      * Method to load saved settings information.
@@ -101,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         edtPass = findViewById(R.id.edt_pass);
         chkbRemember = findViewById(R.id.chkb_remember_login);
         txvFooter = findViewById(R.id.txv_by);
+        fabSettings = findViewById(R.id.fab_settings);
+
 
         //Views in 'layout2_bottom'.
         btnSingIn = findViewById(R.id.btn_singin);
@@ -165,6 +177,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Method for change status fullscreenLayout.
+     */
+    public void toggleFullscreenLayout(View view) {
+
+        if (isFullscrrenLayout) {
+            hideNavegationBar();
+        } else {
+            showNavegationBar();
+        }
+
+    }
+
+    /**
+     * Method for show navegation bar in layout.
+     */
+    public void showNavegationBar() {
+
+        // Define fulscrren activity.
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_VISIBLE);
+
+        // Delayed display of UI elements
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().show();
+        }
+        isFullscrrenLayout = true;
+    }
+
+    /**
+     * Method for hide navegation bar in layout.
+     */
+    public void hideNavegationBar() {
+        // Define fulscrren activity.
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        isFullscrrenLayout = false;
+    }
+
+    /**
      * Method for executar listener onClick in button btnSingIn.
      *
      * @since 04/03/2019
@@ -195,4 +251,5 @@ public class MainActivity extends AppCompatActivity {
         new TaskLogin(this, userProtheus).execute();
 
     }
+
 }
