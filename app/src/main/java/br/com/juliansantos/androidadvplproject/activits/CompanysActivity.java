@@ -2,7 +2,6 @@ package br.com.juliansantos.androidadvplproject.activits;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.apache.commons.lang3.SerializationUtils;

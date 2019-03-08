@@ -1,5 +1,6 @@
 package br.com.juliansantos.androidadvplproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import br.com.juliansantos.androidadvplproject.activits.CompanysActivity;
+import br.com.juliansantos.androidadvplproject.activits.SettingsServerActivity;
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private CompanyProtheus companyProtheus;
 
     /**
+     * @author Julian de Almeida Santos
      * @since 04/03/2019
      * @param savedInstanceState
      */
@@ -70,26 +74,14 @@ public class MainActivity extends AppCompatActivity {
         // load views to class.
         initViews();
 
-        // If there is settings information, it loads the same.
-        loadSettings();
-
         // If there is login information, it loads the same.
         loadLoginInfo();
-    }
-
-
-
-    /**
-     * Method to load saved settings information.
-     *
-     * @since 05/03/2019
-     */
-    private void loadSettings() {
     }
 
     /**
      * Method responsible for initializing objects views of the XML layout.
      *
+     * @author Julian de Almeida Santos
      * @since 04/03/2019
      */
     private void initViews() {
@@ -118,9 +110,11 @@ public class MainActivity extends AppCompatActivity {
         btnSingIn = findViewById(R.id.btn_singin);
 
     }
+
     /**
      * Method to load saved login information.
      *
+     * @author Julian de Almeida Santos
      * @since 05/03/2019
      */
     private void loadLoginInfo() {
@@ -142,14 +136,15 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
 
     /**
      * Method for save UserProtheus created in login.
+     *
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
      */
     public void saveLoginInfo(UserProtheus userProtheus) {
 
@@ -178,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method for change status fullscreenLayout.
+     *
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
      */
     public void toggleFullscreenLayout(View view) {
 
@@ -191,6 +189,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method for show navegation bar in layout.
+     *
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
      */
     public void showNavegationBar() {
 
@@ -207,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Method for hide navegation bar in layout.
+     * Method for hide navigation bar in layout.
+     *
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
      */
     public void hideNavegationBar() {
         // Define fulscrren activity.
@@ -221,9 +225,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Method for executar listener onClick in button btnSingIn.
+     * Method for execute listener onClick in button btnSingIn.
      *
-     * @since 04/03/2019
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
+     * @param view
      */
     public void btnEntrarOnClick(View view) {
 
@@ -249,6 +255,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Get UserProtheus and Companys.
         new TaskLogin(this, userProtheus).execute();
+
+    }
+
+    /**
+     * Method for executar listener onClick in button floatingActionButton Settings.
+     *
+     * @author Julian de Almeida Santos
+     * @since 05/03/2019
+     * @param view
+     */
+    public void btnSettingsOnClick(View view) {
+
+        Intent intent = new Intent(this, SettingsServerActivity.class);
+        startActivity(intent);
 
     }
 
