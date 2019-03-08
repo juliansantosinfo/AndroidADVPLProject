@@ -1,6 +1,5 @@
 package br.com.juliansantos.androidadvplproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,10 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
-import br.com.juliansantos.androidadvplproject.webservices.WSUserProtheus;
 
 /**
  * Class that defines the main activity of the application.
@@ -39,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txvFooter;
     private Button btnSingIn;
 
-    private Intent intent;
     private UserProtheus userProtheus;
     private CompanyProtheus companyProtheus;
 
@@ -53,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // load views to class.
+        initViews();
+
         // If there is settings information, it loads the same.
         loadSettings();
 
         // If there is login information, it loads the same.
         loadLoginInfo();
-
-        // load views to class.
-        initViews();
 
     }
 
@@ -70,14 +75,6 @@ public class MainActivity extends AppCompatActivity {
      * @since 05/03/2019
      */
     private void loadSettings() {
-    }
-
-    /**
-     * Method to load saved login information.
-     *
-     * @since 05/03/2019
-     */
-    private void loadLoginInfo() {
     }
 
     /**
@@ -109,6 +106,63 @@ public class MainActivity extends AppCompatActivity {
         btnSingIn = findViewById(R.id.btn_singin);
 
     }
+    /**
+     * Method to load saved login information.
+     *
+     * @since 05/03/2019
+     */
+    private void loadLoginInfo() {
+
+        File fileAuthentication;
+        String pathAuthentication = getApplicationContext().getDir("serializeds", MODE_PRIVATE).getPath() + "/authentication";
+
+        try {
+
+            fileAuthentication = new File(pathAuthentication);
+
+            if (fileAuthentication.exists()) {
+                userProtheus = SerializationUtils.deserialize(new FileInputStream(fileAuthentication));
+
+                edtUser.setText(userProtheus.getCode());
+                edtPass.setText(userProtheus.getPassword());
+                chkbRemember.setChecked(userProtheus.isSaveLoginInfo());
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Method for save UserProtheus created in login.
+     */
+    public void saveLoginInfo(UserProtheus userProtheus) {
+
+        File fileAuthentication;
+        String pathAuthentication = getApplicationContext().getDir("serializeds", MODE_PRIVATE).getPath() + "/authentication";
+
+        try {
+
+            fileAuthentication = new File(pathAuthentication);
+
+            if (fileAuthentication.exists()) {
+                fileAuthentication.delete();
+            }
+
+            fileAuthentication.createNewFile();
+
+            SerializationUtils.serialize(userProtheus, new FileOutputStream(fileAuthentication));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * Method for executar listener onClick in button btnSingIn.
@@ -125,19 +179,20 @@ public class MainActivity extends AppCompatActivity {
         userProtheus = new UserProtheus();
         userProtheus.setCode(userCode);
         userProtheus.setPassword(userPass);
+        userProtheus.setSaveLoginInfo(chkbRemember.isChecked());
+
+        // Save login info case checkbox is selected.
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(chkbRemember.isChecked()) {
+                    saveLoginInfo(userProtheus);
+                }
+            }
+        }).start();
 
         // Get UserProtheus and Companys.
         new TaskLogin(this, userProtheus).execute();
 
-    }
-
-    @Override
-    public Intent getIntent() {
-        return intent;
-    }
-
-    @Override
-    public void setIntent(Intent intent) {
-        this.intent = intent;
     }
 }

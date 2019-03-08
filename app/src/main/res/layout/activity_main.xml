@@ -57,7 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
-                android:text="mas800109" />
+                android:textAlignment="center"
+                android:text="" />
 
             <TextView
                 android:id="@+id/txv_pass"
@@ -73,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
                 android:inputType="textPassword"
-                android:text="Cecor@2009" />
+                android:textAlignment="center"
+                android:text="" />
 
             <CheckBox
                 android:id="@+id/chkb_remember_login"

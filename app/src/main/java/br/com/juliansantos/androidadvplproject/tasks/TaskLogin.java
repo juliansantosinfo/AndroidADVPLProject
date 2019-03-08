@@ -5,6 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.Serializable;
+
+import br.com.juliansantos.androidadvplproject.MainActivity;
 import br.com.juliansantos.androidadvplproject.activits.CompanysActivity;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
@@ -88,7 +93,9 @@ public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
      * Method for start activity companys.
      */
     private void activityCompanyStart() {
+
         Intent intent = new Intent(context, CompanysActivity.class);
+        intent.putExtra("userProtheus", SerializationUtils.serialize(userProtheus));
         context.startActivity(intent);
     }
 

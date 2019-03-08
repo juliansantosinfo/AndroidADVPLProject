@@ -53,6 +53,6 @@ public class TaskAuthorization extends AsyncTask<String, Void, Boolean> {
 
         isAuthenticated = new WSAuthenticationProtheus().requestAuthentication(userCode, userPass);
 
-        return true;
+        return isAuthenticated;
     }
 }

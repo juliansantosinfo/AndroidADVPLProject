@@ -3,12 +3,14 @@ package br.com.juliansantos.androidadvplproject.beans;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Class that defines an protheus company.
  * @author Julian de Almeida Santos
  * @since 05/03/2019
  */
-public class CompanyProtheus {
+public class CompanyProtheus implements Serializable {
 
     @SerializedName("CCODIGO")
     @Expose

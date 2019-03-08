@@ -67,11 +67,12 @@ public class UserProtheus implements Serializable {
 
     private String password;
     private ArrayList<CompanyProtheus> listCompanys;
+    private boolean saveLoginInfo;
 
     public UserProtheus() {
     }
 
-    public UserProtheus(String id, String code, String password, String name, String email, String department, String office, String branch, Integer levelFields, Integer simultaneousAccesses, Boolean isBlocked, String dateIncluded, String lastChange, String expirationDate, Integer daysToExpire, Boolean isListener, Boolean changePassword, Boolean passInNextLogon, ArrayList<CompanyProtheus> listCompanys) {
+    public UserProtheus(String id, String code, String password, String name, String email, String department, String office, String branch, Integer levelFields, Integer simultaneousAccesses, Boolean isBlocked, String dateIncluded, String lastChange, String expirationDate, Integer daysToExpire, Boolean isListener, Boolean changePassword, Boolean passInNextLogon, ArrayList<CompanyProtheus> listCompanys, boolean saveLoginInfo) {
         this.id = id;
         this.code = code;
         this.password = password;
@@ -91,6 +92,7 @@ public class UserProtheus implements Serializable {
         this.changePassword = changePassword;
         this.passInNextLogon = passInNextLogon;
         this.listCompanys = listCompanys;
+        this.saveLoginInfo = saveLoginInfo;
     }
 
     public String getId() {
@@ -243,5 +245,13 @@ public class UserProtheus implements Serializable {
 
     public void setListCompanys(ArrayList<CompanyProtheus> listCompanys) {
         this.listCompanys = listCompanys;
+    }
+
+    public boolean isSaveLoginInfo() {
+        return saveLoginInfo;
+    }
+
+    public void setSaveLoginInfo(boolean saveLoginInfo) {
+        this.saveLoginInfo = saveLoginInfo;
     }
 }
