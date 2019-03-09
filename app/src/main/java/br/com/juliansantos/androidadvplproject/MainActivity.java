@@ -26,6 +26,7 @@ import br.com.juliansantos.androidadvplproject.activits.CompanysActivity;
 import br.com.juliansantos.androidadvplproject.activits.SettingsServerActivity;
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
+import br.com.juliansantos.androidadvplproject.preferences.PreferencesApp;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
 
 /**
@@ -67,15 +68,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize variable for fullscreenLayout.
-        isFullscrrenLayout = true;
-        hideNavegationBar();
-
         // load views to class.
         initViews();
 
         // If there is login information, it loads the same.
         loadLoginInfo();
+    }
+
+    /**
+     * @author Julian de Almeida Santos
+     * @since 09/03/2019
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Initialize variable for fullscreenLayout.
+        isFullscrrenLayout = true;
+        hideNavegationBar();
+
     }
 
     /**
@@ -119,24 +130,15 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadLoginInfo() {
 
-        File fileAuthentication;
-        String pathAuthentication = getApplicationContext().getDir("serializeds", MODE_PRIVATE).getPath() + "/authentication";
+        // Get preferences in main activity.
+        String userLogin = PreferencesApp.getSharedPreferences(this).getString("userLogin", "");
+        String passLogin = PreferencesApp.getSharedPreferences(this).getString("passLogin", "");
+        boolean saveLogin = PreferencesApp.getSharedPreferences(this).getBoolean("saveLogin", false);
 
-        try {
-
-            fileAuthentication = new File(pathAuthentication);
-
-            if (fileAuthentication.exists()) {
-                userProtheus = SerializationUtils.deserialize(new FileInputStream(fileAuthentication));
-
-                edtUser.setText(userProtheus.getCode());
-                edtPass.setText(userProtheus.getPassword());
-                chkbRemember.setChecked(userProtheus.isSaveLoginInfo());
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // Refresh views.
+        txvUser.setText(userLogin);
+        txvPass.setText(passLogin);
+        chkbRemember.setChecked(saveLogin);
 
     }
 
@@ -148,26 +150,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void saveLoginInfo(UserProtheus userProtheus) {
 
-        File fileAuthentication;
-        String pathAuthentication = getApplicationContext().getDir("serializeds", MODE_PRIVATE).getPath() + "/authentication";
-
-        try {
-
-            fileAuthentication = new File(pathAuthentication);
-
-            if (fileAuthentication.exists()) {
-                fileAuthentication.delete();
-            }
-
-            fileAuthentication.createNewFile();
-
-            SerializationUtils.serialize(userProtheus, new FileOutputStream(fileAuthentication));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Put preferences in main activity to preferences app.
+        PreferencesApp.getEditor(this).putString("userLogin", txvUser.getText().toString());
+        PreferencesApp.getEditor(this).putString("passLogin", txvPass.getText().toString());
+        PreferencesApp.getEditor(this).putBoolean("saveLogin", chkbRemember.isChecked());
+        PreferencesApp.getEditor(this).commit();
 
     }
 

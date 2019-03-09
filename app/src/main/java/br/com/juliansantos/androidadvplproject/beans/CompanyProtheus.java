@@ -138,4 +138,20 @@ public class CompanyProtheus implements Serializable {
     public void setDeliveryAddress(AddressProtheus deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyProtheus{" +
+                "code='" + code + '\'' +
+                ", branch='" + branch + '\'' +
+                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", CNPJ='" + CNPJ + '\'' +
+                ", IE='" + IE + '\'' +
+                ", phone='" + phone + '\'' +
+                ", fax='" + fax + '\'' +
+                ", billingAddress=" + billingAddress +
+                ", deliveryAddress=" + deliveryAddress +
+                '}';
+    }
 }
