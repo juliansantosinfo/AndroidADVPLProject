@@ -1,6 +1,7 @@
 package br.com.juliansantos.androidadvplproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import br.com.juliansantos.androidadvplproject.activits.PreferenceActivity;
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
@@ -95,6 +97,10 @@ public class MainActivity extends Activity {
     }
 
     public void btnSettingsOnClick(View view) {
+
+        Intent intent = new Intent(this, PreferenceActivity.class);
+        startActivity(intent);
+
     }
 
 }
