@@ -1,25 +1,18 @@
 <resources>
     <string name="app_name">Android ADVPL Project</string>
+
+    <!-- Strings related to title activity -->
+    <string name="title_activity_main">Android ADVPL Project</string>
+    <string name="title_activity_companys">Empresas</string>
+
+    <!-- Strings related to main activity -->
     <string name="user">Usuário</string>
     <string name="pass">Senha</string>
-    <string name="save_pass">Salvar senha</string>
+    <string name="save_pass">Salvar Senha</string>
     <string name="singin">Entrar</string>
-    <string name="title_activity_companys">Empresas</string>
-    <string name="title_activity_main_basic">MainActivityBasic</string>
-    <string name="title_activity_login">Sign in</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="server">Server</string>
+
+    <!-- Strings related to settings activity -->
+    <string name="settings">Configurações</string>
+    <string name="server">Servidor</string>
     <string name="port">Porta</string>
-    <string name="title_activity_main2">Main2Activity</string>
 </resources>

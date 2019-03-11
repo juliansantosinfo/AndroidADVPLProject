@@ -32,6 +32,7 @@ public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
         super.onPreExecute();
         progress = new ProgressDialog(context);
         progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
         progress.show();
     }
 
