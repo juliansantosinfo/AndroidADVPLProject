@@ -1,14 +1,13 @@
 package br.com.juliansantos.androidadvplproject;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
@@ -21,11 +20,12 @@ import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
  * @author Julian de Almeida Santos
  * @since 04/03/2019
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     // Global variables.
+    private Handler handler;
+
     private LinearLayout layoutMain;
-    public  ProgressBar progressBarLogin;
     private LinearLayout layoutTop;
     private TextView txvTitle;
     private LinearLayout layoutCenter;
@@ -46,8 +46,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // load views to class.
+        // Initialize views.
         initViews();
+
+        // Initialize handler.
+        handler = new Handler();
     }
 
     private void initViews() {
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         txvTitle = findViewById(R.id.txv_login);
 
         // Views in 'layout2_center'
-        progressBarLogin = findViewById(R.id.pgrb_login);
         txvUser = findViewById(R.id.txv_user);
         txvPass = findViewById(R.id.txv_pass);
         edtUser = findViewById(R.id.edt_user);
@@ -88,15 +90,11 @@ public class MainActivity extends AppCompatActivity {
         userProtheus.setSaveLoginInfo(chkbRemember.isChecked());
 
         // Get UserProtheus and Companys.
-        new TaskLogin(this, userProtheus).execute();
+        new TaskLogin(handler,this, userProtheus).execute();
 
     }
 
     public void btnSettingsOnClick(View view) {
-
-        Intent intent = new Intent(this, SettingsServerActivity.class);
-        startActivity(intent);
-
     }
 
 }

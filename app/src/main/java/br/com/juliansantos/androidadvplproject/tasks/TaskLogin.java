@@ -4,13 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
 
 import org.apache.commons.lang3.SerializationUtils;
 
-import java.io.Serializable;
-
-import br.com.juliansantos.androidadvplproject.MainActivity;
 import br.com.juliansantos.androidadvplproject.activits.CompanysActivity;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
@@ -19,10 +16,12 @@ import br.com.juliansantos.androidadvplproject.webservices.WSUserProtheus;
 public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
 
     Context context;
+    Handler handler;
     ProgressDialog progress;
     UserProtheus userProtheus;
 
-    public TaskLogin(Context context, UserProtheus userProtheus) {
+    public TaskLogin(Handler handler, Context context, UserProtheus userProtheus) {
+        this.handler = handler;
         this.context = context;
         this.userProtheus = userProtheus;
     }

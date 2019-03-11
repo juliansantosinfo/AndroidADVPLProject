@@ -15,4 +15,12 @@
     <string name="settings">Configurações</string>
     <string name="server">Servidor</string>
     <string name="port">Porta</string>
+
+    <!-- Strings related to progress bar -->
+    <string name="wait">Aguarde</string>
+    <string name="processing">Processando</string>
+    <string name="authenticating">Autenticando</string>
+    <string name="pref_server">Servidor</string>
+    <string name="pref_servers_category">Servidor</string>
+
 </resources>
