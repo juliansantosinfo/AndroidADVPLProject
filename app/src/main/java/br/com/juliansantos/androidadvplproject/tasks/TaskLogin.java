@@ -94,9 +94,8 @@ public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
      * Method for start activity companys.
      */
     private void activityCompanyStart() {
-
         Intent intent = new Intent(context, CompanysActivity.class);
-        intent.putExtra("userProtheus", SerializationUtils.serialize(userProtheus));
+        intent.putExtra("userProtheus", userProtheus);
         context.startActivity(intent);
     }
 

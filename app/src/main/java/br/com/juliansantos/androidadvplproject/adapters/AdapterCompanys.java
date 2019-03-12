@@ -46,12 +46,21 @@ public class AdapterCompanys extends BaseAdapter {
         TextView txvCode = view.findViewById(R.id.listview_companys_code);
         TextView txvNome = view.findViewById(R.id.listview_companys_nome);
 
-        txvCode.setText("Emp: "
+        txvCode.setText("Empresa: "
                 + company.getCode().trim()
-                + "/" + company.getBranch().trim()
-                + "    CNPJ: " + company.getCNPJ().trim());
+                + "/" + company.getBranch().trim());
         txvNome.setText(company.getFullName().trim());
 
         return view;
     }
+
+    public void updateAdpter(ArrayList<CompanyProtheus> companysProtheus) {
+        this.companysProtheus = companysProtheus;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<CompanyProtheus> getListCompany() {
+        return companysProtheus;
+    }
+
 }

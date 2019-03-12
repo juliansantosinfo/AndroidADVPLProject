@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class that defines an protheus company.
@@ -153,5 +154,27 @@ public class CompanyProtheus implements Serializable {
                 ", billingAddress=" + billingAddress +
                 ", deliveryAddress=" + deliveryAddress +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this.getClass() == o.getClass() && o != null) {
+            CompanyProtheus that = (CompanyProtheus) o;
+
+            return this.code.equals(that.code) &&
+                    this.branch.equals(that.branch) &&
+                    this.name.equals(that.name) &&
+                    this.fullName.equals(that.fullName) &&
+                    this.CNPJ.equals(that.CNPJ) &&
+                    this.IE.equals(that.IE) &&
+                    this.phone.equals(that.phone) &&
+                    this.fax.equals(that.fax) &&
+                    this.billingAddress.equals(that.billingAddress) &&
+                    this.deliveryAddress.equals(that.deliveryAddress);
+        } else {
+            return false;
+        }
+
     }
 }
