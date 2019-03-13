@@ -3,30 +3,28 @@ package br.com.juliansantos.androidadvplproject.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import br.com.juliansantos.androidadvplproject.webservices.WSAuthenticationProtheus;
 
 public class TaskAuthorization extends AsyncTask<String, Void, Boolean> {
 
+    Handler handler;
     Context context;
-    ProgressDialog progress;
 
-    public TaskAuthorization(Context context) {
+    public TaskAuthorization(Context context, Handler handler) {
         this.context = context;
+        this.handler = handler;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(context);
-        progress.setMessage("Aguarde...");
-        progress.show();
     }
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
-        progress.dismiss();
     }
 
     @Override

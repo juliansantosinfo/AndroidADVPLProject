@@ -20,9 +20,9 @@ public class TaskLogin extends AsyncTask<Void, String, UserProtheus> {
     ProgressDialog progress;
     UserProtheus userProtheus;
 
-    public TaskLogin(Handler handler, Context context, UserProtheus userProtheus) {
-        this.handler = handler;
+    public TaskLogin(Context context, Handler handler, UserProtheus userProtheus) {
         this.context = context;
+        this.handler = handler;
         this.userProtheus = userProtheus;
     }
 

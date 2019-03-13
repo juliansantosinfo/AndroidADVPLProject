@@ -14,13 +14,14 @@
         <LinearLayout
             android:id="@+id/layout2_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
             <TextView
                 android:id="@+id/txv_login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_margin="20dp"
                 android:text="@string/app_name"
                 android:textAlignment="center"

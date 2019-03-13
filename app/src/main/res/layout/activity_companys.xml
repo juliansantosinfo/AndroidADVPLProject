@@ -20,13 +20,18 @@
         android:gravity="center"
         android:textAlignment="center"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/select"/>
+
     <ListView
         android:id="@+id/listview_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:padding="10dp">
-
-    </ListView>
+        android:padding="10dp" />
 
 </LinearLayout>

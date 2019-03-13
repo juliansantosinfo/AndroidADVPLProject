@@ -3,9 +3,12 @@ package br.com.juliansantos.androidadvplproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +21,7 @@ import br.com.juliansantos.androidadvplproject.activits.PreferenceActivity;
 import br.com.juliansantos.androidadvplproject.beans.CompanyProtheus;
 import br.com.juliansantos.androidadvplproject.beans.UserProtheus;
 import br.com.juliansantos.androidadvplproject.tasks.TaskLogin;
+import br.com.juliansantos.androidadvplproject.tasks.TaskNetworkState;
 
 /**
  * Class that defines the main activity of the application.
@@ -47,6 +51,9 @@ public class MainActivity extends Activity {
     private UserProtheus userProtheus;
     private CompanyProtheus companyProtheus;
 
+    public static final int MSG_WHAT_NETWORK_STATE_OFFLINE = 3000;
+    public static final int MSG_WHAT_NETWORK_STATE_ONLINE = 3001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,13 @@ public class MainActivity extends Activity {
 
         // Layouts.
         layoutMain = findViewById(R.id.layout_main);
+        layoutMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TaskNetworkState(getBaseContext(), handler).execute();
+            }
+        });
+
         layoutTop = findViewById(R.id.layout2_top);
         layoutCenter = findViewById(R.id.layout2_center);
 
@@ -87,7 +101,19 @@ public class MainActivity extends Activity {
     }
 
     public void initHandler() {
-        handler = new Handler();
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                if (msg.what == MSG_WHAT_NETWORK_STATE_OFFLINE) {
+                    Toast.makeText(getBaseContext(), "Sem conexão com a INTERNET!", Toast.LENGTH_LONG).show();
+                } else if (msg.what == MSG_WHAT_NETWORK_STATE_ONLINE) {
+                    Toast.makeText(getBaseContext(), "Conexão com a INTERNET Ativa!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        };
     }
 
     private void initSharedPreferences() {
@@ -119,7 +145,7 @@ public class MainActivity extends Activity {
         sharedPreferences.edit().putBoolean(PreferenceActivity.PREF_KEY_SAVE_LOGIN, chkbRemember.isChecked()).apply();
 
         // Get UserProtheus and Companys.
-        new TaskLogin(handler,this, userProtheus).execute();
+        new TaskLogin(this, handler, userProtheus).execute();
 
     }
 
