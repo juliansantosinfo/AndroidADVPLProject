@@ -1,6 +1,5 @@
 package br.com.juliansantos.androidadvplproject.activits;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.ArrayList;
 
